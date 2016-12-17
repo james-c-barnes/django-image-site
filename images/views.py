@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from wsgiref.util import FileWrapper
 
 def index(request):
     return HttpResponse("Images index page.")
@@ -59,3 +60,25 @@ class ImageDetail(APIView):
         image = self.get_object(pk)
         image.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+class ImageData(APIView):
+    """
+    Retrieve image file.
+    """
+    queryset = Image.objects.all()
+
+    def get_object(self, pk):
+        try:
+            return Image.objects.get(pk=pk)
+        except Image.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk, format=None):
+        image = self.get_object(pk)
+        image_file = image.image
+        content_type = 'application/{}'.format(image.filetype)
+        response = HttpResponse(FileWrapper(image_file), content_type=content_type)
+        return response
+        # serializer = ImageSerializer(image)
+        # return Response(serializer.data)
+
