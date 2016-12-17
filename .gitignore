@@ -4,3 +4,4 @@ settings.py
 env
 saved_images
 db.sqlite3
+temp
