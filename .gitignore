@@ -1,0 +1,4 @@
+*.pyc
+*.json
+settings.py
+
