@@ -24,3 +24,12 @@ u'Dodo.3.jpg'
 >>> bird.image.path
 u'/opt/projects/django-image-site/saved_images/Dodo.3.jpg'
 ```
+
+### Build Site
+```bash
+$ python manage.py migrate
+$ python manage.py createsuperuser
+Username: <admin user>
+Email address: <admin email>
+Password: <admin password>
+```
