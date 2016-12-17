@@ -2,3 +2,5 @@
 *.json
 settings.py
 env
+saved_images
+db.sqlite3
