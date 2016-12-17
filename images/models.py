@@ -5,6 +5,7 @@ from django.utils.encoding import python_2_unicode_compatible
 
 @python_2_unicode_compatible
 class Image(models.Model):
+    name = models.CharField(max_length=128, default='')
     filename = models.CharField(max_length=128)
     filetype = models.CharField(max_length=128)
     height = models.IntegerField(default=0)
@@ -13,4 +14,4 @@ class Image(models.Model):
     updated_date = models.DateTimeField('date published')
 
     def __str__(self):
-        return "{}.{}".format(self.filename, self.filetype)
+        return "{} -- {}.{}".format(self.name, self.filename, self.filetype)
