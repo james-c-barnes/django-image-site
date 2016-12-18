@@ -7,7 +7,7 @@ import shutil
 # get meta for id 2
 print "\nView metadata about image with id 2."
 r = requests.get(
-    'http://54.90.102.31:8000/v1/image/2/?format=json',
+    'http://54.90.102.31:8000/v1/image/2?format=json',
     auth=HTTPBasicAuth('tester01', 'working01')
 )
 meta = r.json()
@@ -15,7 +15,7 @@ filename = meta['image']
 
 print "\nView image with id 2."
 r = requests.get(
-    'http://54.90.102.31:8000/v1/image/2/data/?format=json',
+    'http://54.90.102.31:8000/v1/image/2/data?format=json',
     auth=HTTPBasicAuth('tester01', 'working01'),
     stream=True
 )
@@ -30,7 +30,7 @@ if r.status_code == 200:
 print "\nOptional GET parameter: bbox=<x>,<y>,<w>,<h> to get a cutout of the image"
 bbox = '10,10,10,10'
 r = requests.get(
-    'http://54.90.102.31:8000/v1/image/2/data/?format=json&bbox={}'.format(bbox),
+    'http://54.90.102.31:8000/v1/image/2/data?format=json&bbox={}'.format(bbox),
     auth=HTTPBasicAuth('tester01', 'working01'),
     stream=True
 )

@@ -34,10 +34,9 @@ class ImageList(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-
 class ImageDetail(APIView):
     """
-    Retrieve, update or delete a image instance.
+    Retrieve or update an image instance.
     """
     queryset = Image.objects.all()
 
@@ -60,14 +59,14 @@ class ImageDetail(APIView):
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def delete(self, request, pk, format=None):
-        image = self.get_object(pk)
-        image.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+    # def delete(self, request, pk, format=None):
+    #     image = self.get_object(pk)
+    #     image.delete()
+    #     return Response(status=status.HTTP_204_NO_CONTENT)
 
 class ImageData(APIView):
     """
-    Retrieve image file.
+    Retrieve or update an image file.
     """
     queryset = Image.objects.all()
 
@@ -100,4 +99,3 @@ class ImageData(APIView):
             # TODO: when can we delete the file?
         response = HttpResponse(FileWrapper(image_file), content_type=content_type)
         return response
-
