@@ -3,14 +3,14 @@ from __future__ import unicode_literals
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
 
-from datetime import datetime
+from django.utils import timezone
 
 @python_2_unicode_compatible
 class Image(models.Model):
     name = models.CharField(max_length=255, default='')
     image = models.ImageField()
-    created_date = models.DateTimeField(default=datetime.now)
-    modified_date = models.DateTimeField(default=datetime.now)
+    created_date = models.DateTimeField(default=timezone.now)
+    modified_date = models.DateTimeField(default=timezone.now)
     width = models.PositiveIntegerField(default=0, editable=False)
     height = models.PositiveIntegerField(default=0, editable=False)
     size = models.PositiveIntegerField(default=0, editable=False)
@@ -25,6 +25,7 @@ class Image(models.Model):
         self.height = self.image.height
         self.size = self.image.size
         self.filetype = self.image.name[:3]
-        # update modified date
-        self.modified_date = datetime.today()   
+        if self.id:
+            # existing instance -- update modified date
+            self.modified_date = timezone.now()  
         super(Image, self).save(*args, **kwargs) 
