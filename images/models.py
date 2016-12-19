@@ -24,7 +24,7 @@ class ServiceImage(models.Model):
         self.width = self.image.width
         self.height = self.image.height
         self.size = self.image.size
-        self.filetype = self.image.name[:3]
+        self.filetype = self.image.name[-3:]
         if self.id:
             # existing instance -- update modified date
             self.modified_date = timezone.now()  

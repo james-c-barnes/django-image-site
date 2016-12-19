@@ -82,20 +82,23 @@ class ServiceImageData(APIView):
         image_file = image.image
         if 'bbox' in request.query_params:
             # partial image requested
-            # TODO: validate these
-            x, y, w, h = request.query_params['bbox'].split(',')
-            temporary_file = '{}:{}:{}:{}:{}'.format(x, y, w, h, image_file.name)
-            print "Temporary file: {}".format(temporary_file)
-            # major headaches with PIL file format -- couldn't just use file pointers
-            # ended up saveing the cropped file and reopening it
-            # open file in pillow
-            img = PIL.Image.open(image.image.path)
-            # crop file
-            img2 = img.crop((0,0,10,10))
-            # save temporary file
-            img3 = img2.save('temp/' + temporary_file)
-            # open for reading
-            image_file = open('temp/' + temporary_file)
-            # TODO: when can we delete the file?
+            tainted_bbox_query_params = request.query_params['bbox']
+            bbox_params_l = [s for s in tainted_bbox_query_params if s.isdigit()]
+            if len(bbox_params_l) == 4:
+                # bbox query params are all digits
+                x, y, w, h = bbox_params_l
+                temporary_file = '{}:{}:{}:{}:{}'.format(x, y, w, h, image_file.name)
+                print "Temporary file: {}".format(temporary_file)
+                # major headaches with PIL file format -- couldn't just use file pointers
+                # ended up saveing the cropped file and reopening it
+                # open file in pillow
+                img = PIL.Image.open(image.image.path)
+                # crop file
+                img2 = img.crop((0,0,10,10))
+                # save temporary file
+                img3 = img2.save('temp/' + temporary_file)
+                # open for reading
+                image_file = open('temp/' + temporary_file)
+                # TODO: when can we delete the file?
         response = HttpResponse(FileWrapper(image_file), content_type=content_type)
         return response
