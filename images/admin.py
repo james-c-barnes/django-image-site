@@ -1,8 +1,8 @@
 from django.contrib import admin
 
-from .models import Image
+from .models import ServiceImage
 
-class ImageAdmin(admin.ModelAdmin):
+class ServiceImageAdmin(admin.ModelAdmin):
     readonly_fields=('height', 'width', 'size')
 
-admin.site.register(Image, ImageAdmin)
+admin.site.register(ServiceImage, ServiceImageAdmin)

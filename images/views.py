@@ -8,52 +8,52 @@ from cStringIO import StringIO
 def index(request):
     return HttpResponse("Images index page.")
 
-from images.serializers import ImageSerializer
 from django.http import Http404
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 
-from images.models import Image
+from images.models import ServiceImage
+from images.serializers import ServiceImageSerializer
 
-class ImageList(APIView):
+class ServiceImageList(APIView):
     """
     List all images or create a new image.
     """
-    queryset = Image.objects.all()
+    queryset = ServiceImage.objects.all()
 
     def get(self, request, format=None):
-        images = Image.objects.all()
-        serializer = ImageSerializer(images, many=True)
+        images = ServiceImage.objects.all()
+        serializer = ServiceImageSerializer(images, many=True)
         return Response(serializer.data)
 
     def post(self, request, format=None):
-        serializer = ImageSerializer(data=request.data)
+        serializer = ServiceImageSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class ImageDetail(APIView):
+class ServiceImageDetail(APIView):
     """
     Retrieve or update an image instance.
     """
-    queryset = Image.objects.all()
+    queryset = ServiceImage.objects.all()
 
     def get_object(self, pk):
         try:
-            return Image.objects.get(pk=pk)
-        except Image.DoesNotExist:
+            return ServiceImage.objects.get(pk=pk)
+        except ServiceImage.DoesNotExist:
             raise Http404
 
     def get(self, request, pk, format=None):
         image = self.get_object(pk)
-        serializer = ImageSerializer(image)
+        serializer = ServiceImageSerializer(image)
         return Response(serializer.data)
 
     def put(self, request, pk, format=None):
         image = self.get_object(pk)
-        serializer = ImageSerializer(image, data=request.data)
+        serializer = ServiceImageSerializer(image, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
@@ -64,16 +64,16 @@ class ImageDetail(APIView):
     #     image.delete()
     #     return Response(status=status.HTTP_204_NO_CONTENT)
 
-class ImageData(APIView):
+class ServiceImageData(APIView):
     """
     Retrieve or update an image file.
     """
-    queryset = Image.objects.all()
+    queryset = ServiceImage.objects.all()
 
     def get_object(self, pk):
         try:
-            return Image.objects.get(pk=pk)
-        except Image.DoesNotExist:
+            return ServiceImage.objects.get(pk=pk)
+        except ServiceImage.DoesNotExist:
             raise Http404
 
     def get(self, request, pk, format=None):

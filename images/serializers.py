@@ -1,8 +1,8 @@
 from rest_framework import serializers
-from images.models import Image
+from images.models import ServiceImage
 from django.db import models
 
-class ImageSerializer(serializers.ModelSerializer):
+class ServiceImageSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Image
+        model = ServiceImage
         fields = ('id', 'name', 'image', 'width', 'height', 'size', 'created_date', 'modified_date')

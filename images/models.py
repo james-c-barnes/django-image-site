@@ -6,7 +6,7 @@ from django.utils.encoding import python_2_unicode_compatible
 from django.utils import timezone
 
 @python_2_unicode_compatible
-class Image(models.Model):
+class ServiceImage(models.Model):
     name = models.CharField(max_length=255, default='')
     image = models.ImageField()
     created_date = models.DateTimeField(default=timezone.now)
@@ -28,4 +28,4 @@ class Image(models.Model):
         if self.id:
             # existing instance -- update modified date
             self.modified_date = timezone.now()  
-        super(Image, self).save(*args, **kwargs) 
+        super(ServiceImage, self).save(*args, **kwargs) 
