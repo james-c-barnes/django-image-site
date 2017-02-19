@@ -3,6 +3,16 @@
 ## Usage Notes
 
 ## Development Notes
+### IP Address Notes
+```bash
+Get IPv4 Public IP and replace it with the ones below.
+
+Everytime a new instance is started, a new ip is created.
+Putty IP Address will need to be updated as well
+
+Before launching Django, update the ALLOWED_HOSTS in mysite/settings.py with the new IP Address.
+Otherwise, you get Bad Request (400) for every API call.
+```
 ### Start Site
 + Putty to EC2 host @ 54.90.102.31 (need pem file)
 + Launch django
