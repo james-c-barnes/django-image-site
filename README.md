@@ -98,3 +98,68 @@ X-Frame-Options: SAMEORIGIN
 }
 
 ```
+
+## Logging Notes
+
+### Information Resource
+https://www.loggly.com/docs/django-logs/
+
+### Step 1 -- Configuration script
+```bash
+
+# copy the configuration script
+$ curl -O https://www.loggly.com/install/configure-linux.sh
+
+# run the configuration script
+$ sudo bash configure-linux.sh -a SUBDOMAIN -u USERNAME
+
+[ec2-user@ip-172-30-0-252 ~]$ sudo bash configure-linux.sh -a jamesbarnes -u james
+Loggly account or subdomain: jamesbarnes
+Username is set
+Please enter Loggly Password:***********
+INFO: Initiating Configure Loggly for Linux.
+INFO: Operating system is Amazon AMI.
+INFO: Checking if logs-01.loggly.com is reachable.
+INFO: logs-01.loggly.com is reachable.
+INFO: Checking if logs-01.loggly.com is reachable via 514 port. This may take some time.
+INFO: logs-01.loggly.com is reachable via 514 port.
+INFO: Checking if 'jamesbarnes' subdomain is valid.
+INFO: https://jamesbarnes.loggly.com is valid and reachable.
+INFO: Checking if Gen2 account.
+INFO: It is a Gen2 account.
+INFO: Checking if provided username and password is correct.
+INFO: Username and password authorized successfully.
+INFO: Authentication token not provided. Trying to retrieve it from https://jamesbarnes.loggly.com account.
+INFO: Retrieved authentication token: e29a80c2-cf81-421a-bbae-ea0707e41d70
+INFO: Checking if provided auth token is correct.
+INFO: Authentication token validated successfully.
+INFO: rsyslog is present as service.
+INFO: Modified $MaxMessageSize to 64k in rsyslog.conf
+INFO: Restarting the rsyslog service.
+Shutting down system logger:                               [  OK  ]
+Starting system logger:                                    [  OK  ]
+INFO: Creating directory
+mkdir: created directory ‘/var/spool/rsyslog’
+INFO: Sending test message to Loggly.
+INFO: Search URL: https://jamesbarnes.loggly.com/apiv2/search?q=syslog.appName%3ALOGGLYVERIFY%2013dAJl9CxVCr3vIWCscYkrwbOPnzaX3e
+INFO: Verifying if the log made it to Loggly.
+INFO: Verification # 1 of total 10.
+INFO: Did not find the test log message in Loggly's search yet. Waiting for 30 secs.
+INFO: Done waiting. Verifying again.
+INFO: Verification # 2 of total 10.
+SUCCESS: Verification logs successfully transferred to Loggly! You are now sending Linux system logs to Loggly.
+```
+
+### Step 2 -- Configure rsyslog
+```
+# note the replacing of TOKEN with the actual customer token
+$ sudo vim /etc/rsyslog.d/21-django.conf
+$ sudo service rsyslog restart
+```
+
+### Step 3 -- Configure Django
+```
+$ cd /opt/projects/django-image-site/mysite
+# add LOGGING information to settings file
+vim settings.py
+```
