@@ -163,3 +163,27 @@ $ cd /opt/projects/django-image-site/mysite
 # add LOGGING information to settings file
 vim settings.py
 ```
+
+### Step 4 -- Send a test event
+```bash
+$ cd /opt/projects/django-image-site
+$ python manage.py shell
+
+>>> import logging
+>>> logger = logging.getLogger('loggly_logs')
+>>> logger.info('Hi, Welcome to Loggly.')
+```
+
+### Step 5 -- Verify events (Loggly Search)
++ Click Search
++ Delete any applied filters (if needed)
++ Click Syslog
++ Click AppName
++ Click Django
++ View the test event
+
+or
+
++ Click LiveTail
++ Click Start
++ View a newly-created test event
